@@ -4,16 +4,21 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 films = [
-    "https://www.kinopoisk.ru/film/1032606/reviews/ord/rating/status/all/perpage/200/page",
-    "https://www.kinopoisk.ru/film/4484/reviews/ord/date/status/all/perpage/200/page",
-    "https://www.kinopoisk.ru/film/915196/reviews/ord/date/status/all/perpage/200/page",
-    "https://www.kinopoisk.ru/film/495892/reviews/ord/date/status/all/perpage/200/page",
-    "https://www.kinopoisk.ru/film/404366/reviews/ord/date/status/all/perpage/200/page",
-    "https://www.kinopoisk.ru/film/276129/reviews/ord/date/status/all/perpage/200/page",
+    "https://www.kinopoisk.ru/film/1032606/reviews/ord/rating/status/all/perpage/200/page/",
+    "https://www.kinopoisk.ru/film/4484/reviews/ord/date/status/all/perpage/200/page/",
+    "https://www.kinopoisk.ru/film/915196/reviews/ord/date/status/all/perpage/200/page/",
+    "https://www.kinopoisk.ru/film/495892/reviews/ord/date/status/all/perpage/200/page/",
+    "https://www.kinopoisk.ru/film/404366/reviews/ord/date/status/all/perpage/200/page/",
+    "https://www.kinopoisk.ru/film/276129/reviews/ord/date/status/all/perpage/200/page/",
     "https://www.kinopoisk.ru/film/535341/reviews/ord/rating/status/all/perpage/200/page/",
-    "https://www.kinopoisk.ru/film/263447/reviews/ord/date/status/all/perpage/200/page",
-    "https://www.kinopoisk.ru/film/464963/reviews/ord/date/status/all/perpage/200/page",
-    "https://www.kinopoisk.ru/film/409/reviews/ord/rating/status/bad/perpage/100/page",
+    "https://www.kinopoisk.ru/film/263447/reviews/ord/date/status/all/perpage/200/page/",
+    "https://www.kinopoisk.ru/film/464963/reviews/ord/date/status/all/perpage/200/page/",
+    "https://www.kinopoisk.ru/film/409/reviews/ord/rating/status/bad/perpage/100/page/",
+    "https://www.kinopoisk.ru/film/261636/reviews/ord/date/status/bad/perpage/100/page/",
+    "https://www.kinopoisk.ru/film/407636/reviews/ord/rating/status/bad/perpage/75/page/",
+    "https://www.kinopoisk.ru/film/361/reviews/ord/date/status/bad/perpage/75/page/",
+    "https://www.kinopoisk.ru/film/81733/reviews/ord/rating/status/bad/page/",
+    "https://www.kinopoisk.ru/film/373314/reviews/ord/rating/status/bad/perpage/50/page/"
 ]
 
 
@@ -23,9 +28,9 @@ good_comment_num = 1
 bad_comment_num = 1
 
 for film in films:
-    for page in range(1, 3):
+    for page in range(1, 4):
         try:
-            driver.get(film + str(page))
+            driver.get(film + str(page) + "/")
         except:
             continue
         sleep(5)
@@ -58,6 +63,8 @@ for film in films:
                 file.write(film_name)
                 file.write(BeautifulSoup(str(comment), "lxml").text)
                 bad_comment_num += 1
-        sleep(5)
+        if soup.find("li", class_ = "arr") == None:
+            break
+        sleep(3)
 driver.close()
 driver.quit()
